@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Expense Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <link rel="stylesheet" href="expense-tracker-app.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Expense Tracker</h1>
+            <p1>Dashboard</p1>
+        </header>
+
+        <div class="summary-cards">
+            <div class="card">
+                <h3>Total Balance</h3>
+                <div class="value" id="total-balance">$0.00</div>
+            </div>
+            <div class="card">
+                <h3>Total Income</h3>
+                <div class="value positive" id="total-income">$0.00</div>
+            </div>
+            <div class="card">
+                <h3>Total Expenses</h3>
+                <div class="value negative" id="total-expenses">$0.00</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <div class="form-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="add-transaction">Add Transaction</div>
+                        <div class="tab" data-tab="set-budget">Set Budget</div>
+                    </div>
+
+                    <div id="add-transaction" class="tab-content active">
+                        <form id="transaction-form">
+                            <div class="form-group">
+                                <label for="transaction-type">Type</label>
+                                <select id="transaction-type" required>
+                                    <option value="income">Income</option>
+                                    <option value="expense">Expense</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category" required>
+                                    <!-- Income categories -->
+                                    <option value="salary" class="income-category">Salary</option>
+                                    <option value="freelance" class="income-category">Freelance</option>
+                                    <option value="investments" class="income-category">Investments</option>
+                                    <option value="gifts" class="income-category">Gifts</option>
+                                    <option value="other-income" class="income-category">Other Income</option>
+
+                                    <!-- Expense categories -->
+                                    <option value="rent" class="expense-category" style="display:none">Rent/Mortgage</option>
+                                    <option value="utilities" class="expense-category" style="display:none">Utilities</option>
+                                    <option value="groceries" class="expense-category" style="display:none">Groceries</option>
+                                    <option value="dining" class="expense-category" style="display:none">Dining</option>
+                                    <option value="transportation" class="expense-category" style="display:none">Transportation</option>
+                                    <option value="entertainment" class="expense-category" style="display:none">Entertainment</option>
+                                    <option value="healthcare" class="expense-category" style="display:none">Healthcare</option>
+                                    <option value="shopping" class="expense-category" style="display:none">Shopping</option>
+                                    <option value="other-expense" class="expense-category" style="display:none">Other Expense</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount ($)</label>
+                                <input type="number" id="amount" step="0.01" min="0.01" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" id="description" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date" required />
+                            </div>
+                            <button type="submit">Add Transaction</button>
+                        </form>
+                    </div>
+
+                    <div id="set-budget" class="tab-content" style="display:none">
+                        <form id="budget-form">
+                            <div class="form-group">
+                                <label for="budget-amount">Monthly Budget ($)</label>
+                                <input type="number" id="budget-amount" step="0.01" min="0" required />
+                            </div>
+                            <button type="submit">Set Budget</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <div class="chart-container">
+                    <div class="chart-type-selector">
+                        <button class="chart-btn active" data-chart="overview">Overview</button>
+                        <button class="chart-btn" data-chart="expenses">Expenses by Category</button>
+                        <button class="chart-btn" data-chart="income">Income by Category</button>
+                        <button class="chart-btn" data-chart="trend">Monthly Trend</button>
+                    </div>
+                    <canvas id="main-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="budget-section" style="display:none">
+            <div class="card">
+                <h3>Budget Overview</h3>
+                <div class="budget-info">
+                    <p>Monthly Budget: <span id="budget-display">$0.00</span></p>
+                    <p>Current Expenses: <span id="current-expenses">$0.00</span></p>
+                    <p>Remaining: <span id="remaining-budget">$0.00</span></p>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="budget-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transactions">
+            <h2>Recent Transactions</h2>
+            <table id="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="transactions-list">
+                    <tr>
+                        <td colspan="5" class="empty-state">No transactions yet. Add your first transaction above.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="expense-tracker-app.js"></script>
+</body>
+</html>
